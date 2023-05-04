@@ -1,0 +1,318 @@
+/*  폰트 적용 */
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+html {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+/* 노말라이즈 */
+body, html {
+    overflow-x:hidden;
+}
+body, ul, li {
+    padding:0;
+    margin:0;
+    list-style:none;
+}
+a {
+    text-decoration:none;
+    color:inherit;
+}
+/* 노말라이즈 끝 */
+
+/* 라이브러리 */
+/* 상단 로고 및 메뉴 */
+.con {
+    max-width:1000px;
+    margin:0 auto;
+}
+.navbar{
+    background-color: black;
+    height: 20px;
+    padding-left: 30px;
+  }
+  .navbar ul{
+    float: right;
+  }
+  
+  .navbar li{
+    list-style-type: none;
+    float: left;
+    margin-right: 30px;
+  }
+  
+  .navbar a{
+    text-decoration: none;
+    color: white;
+    font-style: bold;
+    font-size: 13px;
+    font-weight: bold;
+  }
+.logo-bar {
+    width: 120px;
+    height: 80px;
+    text-align:center;
+}
+.menu-box-1 {
+    width: 100%;
+    text-align:center;
+}
+.menu-box-1 > ul > li {
+    width:calc(100% / 7);
+    font-weight:bold;
+}
+.menu-box-1 ul > li > a {
+    display:block;
+    position:relative;
+    padding:5px;
+}
+.menu-box-1 ul > li:hover > a {
+    color:red;
+    text-decoration:underline;
+}
+.menu-box-1 > ul ul {
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    z-index:0;
+    padding:10px 0;
+}
+.menu-box-1 > ul ul::after {
+    content:"";
+    background-color:rgba(200,200,200,0.5);
+    border-top:1px solid gray;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:-1;
+}
+.menu-box-1 ul > li {
+    position:relative;
+}
+.menu-box-1 ul > li:hover > ul {
+    display:block;
+}
+.menu-box-1 > ul ul > li > a {
+    font-size:0.8rem;
+    font-weight:normal;
+    padding:2px 0;
+}
+.fix {
+    position: relative;
+    z-index: 1;
+    margin-left: 120px;
+    background-color: white;
+    top: 0px;
+    position: fixed;
+}
+/* 메뉴 구분선 */
+.menu-box-1 > ul > li > a::after {
+    content:"";
+    width:2px;
+    height:15px;
+    background-color:black;
+    position:absolute;
+    top:50%;
+    right:0;
+    transform:translatey(-50%);
+}
+.menu-box-1 > ul > li:first-child > a::before {
+    content:"";
+    width:2px;
+    height:15px;
+    background-color:black;
+    position:absolute;
+    top:50%;
+    left:0;
+    transform:translatey(-50%);
+}
+
+/* 메뉴 아이콘 및 공유 아이콘 */
+.menu-box-1-m > img {
+    display:none;
+    width:50px;
+    position:absolute;
+    top:15px;
+    left:10px;
+    cursor:pointer;
+}
+.share > img {
+    display:none;
+    width:50px;
+    position:absolute;
+    top:15px;
+    right:10px;
+    cursor:pointer;
+}
+
+/* 배너 및 상품 목록 */
+.img-box > img {
+    width:100%;
+    display:block;
+}
+.row::after {
+    content:"";
+    display:block;
+    clear:both;
+}
+.cell {
+    float:left;
+    box-sizing:border-box
+}
+
+/* 커스텀 */
+.bn-box-1 {
+    margin-top:20px;
+}
+
+/* 상품 정렬 */
+.list-box-1 .cell {
+    width:20%;
+    padding:0 10px;
+    margin-top:20px;
+    cursor:pointer;
+}
+.list-box-1 .row {
+    margin:0 -10px;
+}
+
+/* 상품 제목 및 가격 */
+.list-box-1 .cell > .prod-name, .list-box-1 .cell > .prod-price {
+    text-align:center;
+    font-weight:bold;
+    margin-top:5px;
+}
+.list-box-1 .cell > .prod-price {
+    font-size:1.2rem;
+}
+.list-box-1 .cell > .prod-price::after {
+    content:"원";
+}
+.list-box-1 .cell:hover > .prod-name, .list-box-1 .cell:hover > .prod-price {
+    color:red;
+}
+
+/* 기타 효과 */
+.list-box-1 .cell > .img-box > img {
+    transition:transform 1s;
+}
+.list-box-1 .cell:hover > .img-box > img {
+    transform:scale(1.25);
+}
+.list-box-1 .cell > .img-box {
+    overflow:hidden;
+    position:relative;
+}
+.list-box-1 .cell > .img-box > .ico-view {
+    color:white;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translatex(-50%) translatey(-50%);
+    opacity:0;
+    transition:opacity 1s;
+    z-index:1;
+    border:2px solid white;
+    border-radius:10px;
+    padding:5px;
+}
+.list-box-1 .cell > .img-box > .ico-view:after {
+    content:"VIEW";
+    padding-left:5px;
+}
+.list-box-1 .cell:hover > .img-box > .ico-view {
+    opacity:1;
+}
+.list-box-1 .cell:hover > .img-box::before {
+    opacity:1;
+}
+.list-box-1 .cell > .img-box::after {
+    content:"";
+    background-color:rgba(0,0,0,0);
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    transition:background-color 1s;
+}
+.list-box-1 .cell:hover > .img-box::after {
+    background-color:rgba(0,0,0,0.5);
+}
+/* 무료배송 */
+.list-box-1 .cell > .free-del {
+    text-align:center;
+    margin-top:12px;
+}
+.list-box-1 .cell > .free-del > span::after {
+    content:"무료배송";
+    font-size:0.8rem;
+    border:1px solid red;
+    color:red;
+    padding:4px;
+}
+
+/* 하단 */
+.copy {
+    text-align:center;
+    padding:30px;
+    background-color:#dfdfdf;
+    margin-top:70px;
+    font-weight:bold;
+}
+
+/* 반응형 사이즈 */
+@media (max-width:600px) {
+    .bn-box-1 > .img-box {
+        margin-left:-50%;
+    }
+}
+@media (min-width:1001px){
+    .list-box-1 .cell:nth-child(5n + 1) {
+        clear:both;
+    }
+}
+@media (max-width:1000px) and (min-width:801px) {
+    .list-box-1 .cell {
+        width:25%;
+    }
+    .list-box-1 .cell:nth-child(4n + 1) {
+        clear:both;
+    }
+}
+@media (max-width:800px) and (min-width:601px) {
+    .list-box-1 .cell {
+        width:33.3333%;
+    }
+    .list-box-1 .cell:nth-child(3n + 1) {
+        clear:both;
+    }
+}
+@media (max-width:600px) and (min-width:401px) {
+    .list-box-1 .cell {
+        width:50%;
+    }
+    .list-box-1 .cell:nth-child(2n + 1) {
+        clear:both;
+    }
+}
+@media (max-width:400px) and (min-width:0px) {
+    .list-box-1 .cell {
+        width:100%;
+    }
+}
+@media (max-width:1000px) {
+    .menu-box-1 {
+        display:none;
+    }
+}
+@media (max-width:1000px) {
+    .menu-box-1-m > img, .share > img {
+        display:block;
+    }
+}
+/* 커스텀 끝 */
