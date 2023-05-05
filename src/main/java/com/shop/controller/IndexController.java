@@ -96,7 +96,7 @@ public class IndexController implements WebMvcConfigurer {
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);
-        userRepository.save((user));    //회원가입 잘됨. 비밀번호 1234일시 시큐리티로 로그인 할 수 없음 이유는 암호화가 안되었기 때문
+        userRepository.save(user);    //회원가입 잘됨. 비밀번호 1234일시 시큐리티로 로그인 할 수 없음 이유는 암호화가 안되었기 때문
 
         return "redirect:/loginForm";
     }
