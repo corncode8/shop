@@ -1,8 +1,8 @@
-package com.shop.config.auth;
+package com.shop.config.oauth;
 
-import com.shop.config.auth.provider.GoogleUserInfo;
-import com.shop.config.auth.provider.NaverUserInfo;
-import com.shop.config.auth.provider.OAuth2UserInfo;
+import com.shop.config.oauth.provider.GoogleUserInfo;
+import com.shop.config.oauth.provider.NaverUserInfo;
+import com.shop.config.oauth.provider.OAuth2UserInfo;
 import com.shop.model.User;
 import com.shop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

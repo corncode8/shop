@@ -1,5 +1,5 @@
 package com.shop.model;
 
 public enum RoleType {
-    USER, ADMIN
+    USER, ADMIN, MANAGER
 }

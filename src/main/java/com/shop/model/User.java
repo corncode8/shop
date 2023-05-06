@@ -3,7 +3,6 @@ package com.shop.model;
 
 import java.sql.Timestamp;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
 
 // ORM - Object Relation Mapping
 
@@ -30,12 +30,16 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private String phone;
+    private String address;
     private String role; //ROLE_USER, ROLE_ADMIN
     // OAuth를 위해 구성한 추가 필드 2개
     private String provider;    // google or naver
     private String providerId;  // sub=118145074675864377136
     @CreationTimestamp
     private Timestamp createDate;
+    @UpdateTimestamp
+    private Timestamp updateDate;
 
     @Builder
     public User(String username, String password, String email, String role, String provider, String providerId, Timestamp createDate) {
@@ -43,6 +47,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.phone = phone;
         this.role = role;
         this.provider = provider;
         this.providerId = providerId;

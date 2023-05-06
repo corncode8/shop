@@ -1,4 +1,4 @@
-package com.shop.config.auth;
+package com.shop.config.oauth;
 
 import com.shop.model.User;
 import com.shop.repository.UserRepository;

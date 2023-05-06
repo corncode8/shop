@@ -1,4 +1,4 @@
-package com.shop.config.auth;
+package com.shop.config.oauth;
 
 
 // 시큐리티가 /login주소 요청이 오면 낚아채서 로그인을 진행시킴
@@ -11,7 +11,6 @@ import com.shop.model.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;

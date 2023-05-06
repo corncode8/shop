@@ -1,15 +1,18 @@
 package com.shop.controller;
 
+import com.shop.config.oauth.PrincipalDetails;
 import com.shop.model.Product;
 import com.shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class ProductController {
@@ -22,11 +25,20 @@ public class ProductController {
         //return "/seller/itemForm";
     }
 
-    // 상품 등록 (POST)
-//    @PostMapping("/manager//item/new/pro")
-//    public String itemSave(Product item) {
+    // PostMapping은 front없이는 주석
+
+    // 상품 등록 (POST 판매자만 가능)
+//    @PostMapping("/manager/item/new/pro")
+//    public String itemSave(Product product, @AuthenticationPrincipal PrincipalDetails principalDetails, MultipartFile imgFile) throws Exception {
+//        if(principalDetails.getUser().getRole().equals("ROLE_ADMIN") || principalDetails.getUser().getRole().equals("ROLE_SELLER")) {
+//            // 판매자
+//            product.setSeller_user(principalDetails.getUser());
+//            productService.saveItem(product, imgFile);
 //
-//        productService.saveItem(item); return "/main";
+//            return "redirect:/main";
+//        } else {
+//            return "redirect:/main";
+//        }
 //    }
 
 //    상품 수정 페이지 (GET)

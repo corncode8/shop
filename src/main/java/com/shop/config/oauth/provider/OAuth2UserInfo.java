@@ -1,4 +1,4 @@
-package com.shop.config.auth.provider;
+package com.shop.config.oauth.provider;
 
 public interface OAuth2UserInfo {
     String getProviderId();
