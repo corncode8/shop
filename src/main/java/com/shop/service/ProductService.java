@@ -9,6 +9,7 @@ import com.shop.repository.ProductRepository;
 import com.shop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -27,8 +28,11 @@ public class ProductService {
     @Autowired
     private CartItemRepository cartItemRepository;
 
+    @Autowired
+    private CartService cartService;
 
-    // create - 상품 등록
+
+    /** create - 상품 등록 */
     public void saveItem(Product product, MultipartFile imgFile) throws Exception {
         String oriImgName = imgFile.getOriginalFilename();
         String imgName = "";
@@ -55,15 +59,16 @@ public class ProductService {
 //        th:src="@{${item.getImgPath()}}"
     }
 
-    // read
+    /** read */
     public Product itemView(Integer id) {   // 개별 상품 읽기
         return productRepository.findById(id).get();
     }
+
     public List<Product> allItemView() {    // 전체 상품 리스트 읽기
         return productRepository.findAll();
     }
 
-    // update
+    /** update */
     public void itemModify(Product item, int id) {
         Product update = productRepository.findById(id);
         update.setName(item.getName());
@@ -74,8 +79,18 @@ public class ProductService {
     }
 
 
-    // delete
-    public void itemDelete(int id) {
+    /** delete
+     상품 삭제 */
+    @Transactional
+    public void itemDelete(Integer id) {
+        // cartItem 중에 해당 id 를 가진 item 찾기
+        List<CartItem> items = cartService.findCartItemByItemId(id);
+
+        for(CartItem item : items) {
+            cartService.cartItemDelete(item.getId());
+        }
+
         productRepository.deleteById(id);
     }
+
 }

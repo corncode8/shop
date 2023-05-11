@@ -85,7 +85,7 @@ public class IndexController implements WebMvcConfigurer {
     @PostMapping("/join")
     public String join(User user) {
         System.out.println(user);
-        user.setRole("ROLE_USER");
+        user.setRole("ROLE_MANAGER");
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);

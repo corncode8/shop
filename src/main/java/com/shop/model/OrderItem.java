@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Builder
 @Data
@@ -46,8 +45,8 @@ public class OrderItem {
         orderItem.setUser(user);
         orderItem.setItemName(cartItem.getProduct().getName());
         orderItem.setProductPrice(cartItem.getProduct().getPrice());
-        orderItem.setProductCount(cartItem.getCartCount());
-        orderItem.setProductTotalPrice(cartItem.getProduct().getPrice()*cartItem.getCartCount());
+        orderItem.setProductCount(cartItem.getCount());
+        orderItem.setProductTotalPrice(cartItem.getProduct().getPrice()*cartItem.getCount());
         orderItem.setSaleItem(saleItem);
         return orderItem;
     }

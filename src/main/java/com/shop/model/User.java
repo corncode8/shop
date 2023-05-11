@@ -2,11 +2,12 @@ package com.shop.model;
 
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +28,30 @@ public class User {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    // 판매자가 가지고 있는 상품들
+    @OneToMany(mappedBy = "seller")
+    private List<Product> products = new ArrayList<>();
+
+    // 구매자의 장바구니
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
+
+    // 구매자의 주문
+    @OneToMany(mappedBy = "user")
+    private List<Order> userOrder = new ArrayList<>();
+
+    // 구매자의 주문상품들
+    @OneToMany(mappedBy = "user")
+    private List<OrderItem> userOrderItem = new ArrayList<>();
+
+    // 판매자의 판매상품들
+    @OneToMany(mappedBy = "seller")
+    private List<SaleItem> sellerSaleItem = new ArrayList<>();
+
+    // 판매자의 판매
+    @OneToMany(mappedBy = "seller")
+    private List<Sale> sellerSale;
+    private int coin; // 구매자 - 충전한 돈 / 판매자 - 수익
     private String username;
     private String password;
     private String email;
@@ -53,4 +78,6 @@ public class User {
         this.providerId = providerId;
         this.createDate = createDate;
     }
+
+
 }

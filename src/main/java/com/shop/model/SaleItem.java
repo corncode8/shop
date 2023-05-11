@@ -57,8 +57,8 @@ public class SaleItem {
         saleItem.setSeller(seller);
         saleItem.setItemName(cartItem.getProduct().getName());
         saleItem.setItemPrice(cartItem.getProduct().getPrice());
-        saleItem.setItemCount(cartItem.getCartCount());
-        saleItem.setItemTotalPrice(cartItem.getProduct().getPrice()*cartItem.getCartCount());
+        saleItem.setItemCount(cartItem.getCount());
+        saleItem.setItemTotalPrice(cartItem.getProduct().getPrice()*cartItem.getCount());
         return saleItem;
     }
 

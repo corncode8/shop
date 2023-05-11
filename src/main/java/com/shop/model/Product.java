@@ -23,7 +23,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name="seller_id")
-    private User seller_user; // 판매자 아이디
+    private User seller; // 판매자 아이디
 
     private int price;
     private String name;

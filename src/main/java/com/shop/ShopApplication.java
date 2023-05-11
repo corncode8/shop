@@ -23,4 +23,6 @@ public class ShopApplication {
 
 	}
 
+
+	//https://xzio.tistory.com/2040 아임포트를 이용한 결제
 }

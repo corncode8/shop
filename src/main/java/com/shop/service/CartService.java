@@ -7,7 +7,6 @@ import com.shop.model.User;
 import com.shop.repository.CartItemRepository;
 import com.shop.repository.CartRepository;
 import com.shop.repository.ProductRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-//@RequiredArgsConstructor
 public class CartService {
 
     private CartRepository cartRepository;
@@ -30,7 +28,8 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    // 장바구니 담기
+
+    /** 장바구니 담기 */
     @Transactional
     public void addCart(User user, Product newItem, int amount) {
 
@@ -58,7 +57,7 @@ public class CartService {
             update.setCart(cartItem.getCart());
             update.setProduct(cartItem.getProduct());
             update.addCount(amount);
-            update.setCartCount(update.getCartCount());
+            update.setCount(update.getCount());
             cartItemRepository.save(update);
         }
 
@@ -67,15 +66,15 @@ public class CartService {
 
     }
 
-    // 유저 id로 해당 유저의 장바구니 찾기
+    /** 유저 id로 해당 유저의 장바구니 찾기 */
     public Cart findUserCart(int userId) {
 
         return cartRepository.findCartByUserId(userId);
 
     }
 
-    // 카트 상품 리스트 중 해당하는 유저가 담은 상품만 반환
-    // 유저의 카트 id와 카트상품의 카트 id가 같아야 함
+    /** 카트 상품 리스트 중 해당하는 유저가 담은 상품만 반환
+     유저의 카트 id와 카트상품의 카트 id가 같아야 함 */
     public List<CartItem> allUserCartView(Cart userCart) {
 
         // 유저의 카트 id를 꺼냄
@@ -96,7 +95,7 @@ public class CartService {
         return UserCartItems;
     }
 
-    // 카트 상품 리스트 중 해당하는 상품 id의 상품만 반환
+    /** 카트 상품 리스트 중 해당하는 상품 id의 상품만 반환 */
     public List<CartItem> findCartItemByItemId(int id) {
 
         List<CartItem> cartItems = cartItemRepository.findCartItemByItemId(id);
@@ -104,7 +103,7 @@ public class CartService {
         return cartItems;
     }
 
-    // 카트 상품 리스트 중 해당하는 상품 id의 상품만 반환
+    /** 카트 상품 리스트 중 해당하는 상품 id의 상품만 반환 */
     public CartItem findCartItemById(int id) {
 
         CartItem cartItem = cartItemRepository.findCartItemById(id);
@@ -112,13 +111,13 @@ public class CartService {
         return cartItem;
     }
 
-    // 장바구니의 상품 개별 삭제
+    /** 장바구니의 상품 개별 삭제 */
     public void cartItemDelete(int id) {
 
         cartItemRepository.deleteById(id);
     }
 
-    // 장바구니 아이템 전체 삭제 -> 매개변수는 유저 id
+    /** 장바구니 아이템 전체 삭제 -> 매개변수는 유저 id */
     public void allCartItemDelete(int id) {
 
         // 전체 cartItem 찾기
