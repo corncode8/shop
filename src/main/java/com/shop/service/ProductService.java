@@ -69,12 +69,24 @@ public class ProductService {
     }
 
     /** update */
-    public void itemModify(Product item, int id) {
-        Product update = productRepository.findById(id);
-        update.setName(item.getName());
-        update.setContent(item.getContent());
-        update.setPrice(item.getPrice());
-        update.setStock(item.getStock());
+    // 상품 수정
+    @Transactional
+    public void itemModify(Product product, Integer id, MultipartFile imgFile) throws Exception {
+
+        String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/files/";
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid + "_" + imgFile.getOriginalFilename();
+        File saveFile = new File(projectPath, fileName);
+        imgFile.transferTo(saveFile);
+
+        Product update = productRepository.findItemById(id);
+        update.setName(product.getName());
+        update.setContent(product.getContent());
+        update.setPrice(product.getPrice());
+        update.setStock(product.getStock());
+        update.setSoldout(product.isSoldout());
+        update.setImgName(fileName);
+        update.setImgPath("/files/"+fileName);
         productRepository.save(update);
     }
 

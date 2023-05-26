@@ -28,7 +28,7 @@ public class SecurityConfig{
         http.csrf().disable();
         http.authorizeRequests()    // 글로벌로 권한 설정
                 .antMatchers("/user/**").authenticated()    // 인증만 되면 들어갈 수 있는 주소
-                .antMatchers("/manager/**").access("hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')")
+                .antMatchers("/seller/**").access("hasAnyRole('ROLE_SELLER','ROLE_ADMIN')")
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()
                 .and()

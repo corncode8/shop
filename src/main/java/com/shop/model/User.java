@@ -2,12 +2,12 @@ package com.shop.model;
 
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
+import com.shop.feedback.Feedback;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
@@ -22,8 +22,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Builder
 @Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor  // 파라미터가 없는 기본 생성자를 만들어줌
+@AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자를 만들어줌
 public class User {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +51,13 @@ public class User {
     // 판매자의 판매
     @OneToMany(mappedBy = "seller")
     private List<Sale> sellerSale;
+
+    // 구매자의 피드백
+    @OneToMany(mappedBy = "user")
+    private List<Feedback> user_feedbacks;
+
     private int coin; // 구매자 - 충전한 돈 / 판매자 - 수익
+    @Column(unique = true) // 닉네임 중복 안됨
     private String username;
     private String password;
     private String email;

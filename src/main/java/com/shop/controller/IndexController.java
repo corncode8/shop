@@ -52,7 +52,7 @@ public class IndexController implements WebMvcConfigurer {
 
     @GetMapping({"", "/"})
     public String index() {
-        return "index";
+        return "samplecart";
     }
 
     // OAuth 로그인을 해도 PrincipalDetails
@@ -66,7 +66,7 @@ public class IndexController implements WebMvcConfigurer {
     public @ResponseBody String admin() {
         return "admin";
     }
-    @GetMapping("/manager")
+    @GetMapping("/seller")
     public @ResponseBody String manager() {
         return "manager";
     }
@@ -85,7 +85,7 @@ public class IndexController implements WebMvcConfigurer {
     @PostMapping("/join")
     public String join(User user) {
         System.out.println(user);
-        user.setRole("ROLE_MANAGER");
+        user.setRole("ROLE_SELLER");
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);
@@ -100,7 +100,7 @@ public class IndexController implements WebMvcConfigurer {
         return "개인정보";
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')or hasRole('ROLE_ADMIN')")   // data 메서드가 실행되기 직전에 실행됨. 권한을 여러개 걸고 싶을때
+    @PreAuthorize("hasRole('ROLE_SELLER')or hasRole('ROLE_ADMIN')")   // data 메서드가 실행되기 직전에 실행됨. 권한을 여러개 걸고 싶을때
     @GetMapping("/data")
     public @ResponseBody String data() {
         return "데이터정보";
