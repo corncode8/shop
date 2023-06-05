@@ -74,20 +74,20 @@ public class IndexController implements WebMvcConfigurer {
     }
 
     // securityconfig 생성 후 작동안함
-    @GetMapping("/loginForm")
+    @GetMapping("/login")
     public String loginForm() {
-        return "loginForm";
+        return "login";
     }
 
-    @GetMapping("/joinForm")
+    @PostMapping("/signUp")
     public String joinForm() {
-        return "joinForm";
+        return "singUp";
     }
 
     @PostMapping("/join")
     public String join(User user) {
         System.out.println(user);
-        user.setRole("ROLE_SELLER");
+        user.setRole("ROLE_USER");
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);
