@@ -1,6 +1,6 @@
 package com.shop.controller;
 
-import com.shop.config.oauth.PrincipalDetails;
+import com.shop.config.auth.PrincipalDetails;
 import com.shop.feedback.Feedback;
 import com.shop.feedback.FeedbackKeyword;
 import com.shop.model.User;

@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
     Feedback findById(int id);
     Feedback findByContent(String content);

@@ -32,6 +32,7 @@ public class User {
     @OneToMany(mappedBy = "seller")
     private List<Product> products = new ArrayList<>();
 
+
     // 구매자의 장바구니
     @OneToOne(mappedBy = "user")
     private Cart cart;

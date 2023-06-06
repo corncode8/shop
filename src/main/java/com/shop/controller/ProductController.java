@@ -1,6 +1,6 @@
 package com.shop.controller;
 
-import com.shop.config.oauth.PrincipalDetails;
+import com.shop.config.auth.PrincipalDetails;
 import com.shop.model.Product;
 import com.shop.model.User;
 import com.shop.service.ProductService;

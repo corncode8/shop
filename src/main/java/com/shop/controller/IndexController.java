@@ -1,26 +1,40 @@
 package com.shop.controller;
 
-import com.shop.config.oauth.PrincipalDetails;
+
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import com.shop.config.auth.PrincipalDetails;
+import com.shop.model.Cart;
+import com.shop.model.Product;
 import com.shop.model.User;
+import com.shop.repository.CartRepository;
 import com.shop.repository.UserRepository;
+import com.shop.service.CartService;
+import com.shop.service.ProductService;
+import com.shop.service.UserPageService;
+import net.bytebuddy.utility.nullability.AlwaysNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 @Controller
-public class IndexController implements WebMvcConfigurer {
+public class IndexController {
 
     @Autowired
     private UserRepository userRepository;
@@ -28,83 +42,113 @@ public class IndexController implements WebMvcConfigurer {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping("/test/login")
-    public @ResponseBody String testLogin(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails) {  // DI(의존성 주입)
-        System.out.println("/test/login =============");
-        //Authentication authentication을 통해 session 정보 얻기
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        System.out.println("authentication : " + principalDetails.getUser());
+    @Autowired
+    private CartService cartService;
+    @Autowired
+    private CartRepository cartRepository;
 
-        System.out.println("userDetails : ; " + userDetails.getUser()); // @AuthenticationPrincipal 어노테이션을 통해 회원가입 진행하여 가입한 사람들의 session 얻을 수 있음.
-        return "세션 정보 확인하기";
+    @Autowired
+    private UserPageService userPageService;
 
-    }
+    @Autowired
+    private ProductService productService;
 
-    @GetMapping("/test/oauth/login")
-    public @ResponseBody String testOAuthLogin(Authentication authentication, @AuthenticationPrincipal OAuth2User oauth) {
-        System.out.println("/test/oauth/login =============");
-        //Authentication authentication을 통해 session 정보 얻기
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        System.out.println("authentication : " + oAuth2User.getAttributes());
+    @GetMapping({ "", "/" })
+    public String index(Model model) {
+        // 로그인을 안 한 경우
+        List<Product> items = productService.allItemView();
+        model.addAttribute("items", items);
 
-        System.out.println("oauth2User : " + oauth.getAttributes());    //  @AuthenticationPrincipal OAuth2User oauth을 통해 session정보 얻는 방법
-
-         return "OAuth 세션 정보 확인하기";
-    }
-
-    @GetMapping({"", "/"})
-    public String index() {
         return "main";
     }
 
-    // OAuth 로그인을 해도 PrincipalDetails
-    // 일반 로그인을 해도 PrincipalDetails
-    @GetMapping("/user")
-    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        System.out.println("PrincipalDetails :" + principalDetails.getUser());
-        return "user";
-    }
-    @GetMapping("/admin")
-    public @ResponseBody String admin() {
-        return "admin";
-    }
-    @GetMapping("/seller")
-    public @ResponseBody String manager() {
-        return "manager";
+    @GetMapping("/main")
+    public String mainPage(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        if (principalDetails.getUser().getRole().equals("ROLE_SELLER")) {
+            // 판매자
+            int sellerId = principalDetails.getUser().getId();
+            List<Product> items = productService.allItemView();
+            model.addAttribute("items", items);
+            model.addAttribute("user", userPageService.findUser(sellerId));
+
+            return "/main";
+        } else {
+            // 구매자
+            int userId = principalDetails.getUser().getId();
+            List<Product> items = productService.allItemView();
+            model.addAttribute("items", items);
+            model.addAttribute("user", userPageService.findUser(userId));
+
+            return "main";
+        }
     }
 
-    // securityconfig 생성 후 작동안함
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/";
+    }
+
+//    @GetMapping("/user")
+//    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principal) {
+//        System.out.println("Principal : " + principal);
+//        System.out.println("OAuth2 : "+principal.getUser().getProvider());
+//        // iterator 순차 출력 해보기
+//        Iterator<? extends GrantedAuthority> iter = principal.getAuthorities().iterator();
+//        while (iter.hasNext()) {
+//            GrantedAuthority auth = iter.next();
+//            System.out.println(auth.getAuthority());
+//        }
+//        System.out.println(principal.getUsername());
+//
+//
+//        return "유저 페이지입니다.";
+//    }
+
+    @GetMapping("/admin")
+    public @ResponseBody String admin() {
+        return "어드민 페이지입니다.";
+    }
+
+    //@PostAuthorize("hasRole('ROLE_MANAGER')")
+    //@PreAuthorize("hasRole('ROLE_MANAGER')")
+    @Secured("ROLE_SELLER")
+    @GetMapping("/seller")
+    public @ResponseBody String seller() {
+        return "seller 페이지입니다.";
+    }
+
     @GetMapping("/login")
-    public String loginForm() {
+    public String login(HttpServletRequest req) {
+        String username = req.getParameter("username");
+
+        HttpSession session = req.getSession();
+        session.setAttribute("username", username);
+
         return "login";
     }
 
-    @PostMapping("/signUp")
-    public String joinForm() {
-        return "singUp";
+    @GetMapping("/signUp")
+    public String signUp(User user) {
+        return "signUp";
     }
 
-    @PostMapping("/join")
-    public String join(User user) {
-        System.out.println(user);
-        user.setRole("ROLE_USER");
+    @PostMapping("/joinProc")
+    public String joinProc(User user) {
+        System.out.println("회원가입 진행 : " + user);
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);
-        userRepository.save(user);    //회원가입 잘됨. 비밀번호 1234일시 시큐리티로 로그인 할 수 없음 이유는 암호화가 안되었기 때문
-
-        return "redirect:/loginForm";
+        user.setRole("ROLE_USER");
+        userRepository.save(user);
+        createCart(user);
+        return "redirect:/";
     }
 
-    @Secured("ROLE_ADMIN")      // admin만 가능한 페이지로 만들어줌 권한을 하나만 걸고 싶을때
-    @GetMapping("/info")
-    public @ResponseBody String info() {
-        return "개인정보";
-    }
+    public void createCart(User user){
 
-    @PreAuthorize("hasRole('ROLE_SELLER')or hasRole('ROLE_ADMIN')")   // data 메서드가 실행되기 직전에 실행됨. 권한을 여러개 걸고 싶을때
-    @GetMapping("/data")
-    public @ResponseBody String data() {
-        return "데이터정보";
+        Cart cart = Cart.createCart(user);
+
+        cartRepository.save(cart);
     }
 }

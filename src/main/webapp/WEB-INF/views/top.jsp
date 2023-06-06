@@ -136,35 +136,39 @@ clear:left;
                class="header__nav__mid-title">PADDING</a></li>
          </ul>
       </div>
-      <div class="menubar">
-         <ul class="header__nav__right clearfix">
-            <%
-            String userId = (String) session.getAttribute("userId");
-            if (userId == null) {
-            %>
-             <li><a href="<%=application.getContextPath()%>/login" id="login" class="header__nav__title">LOGIN</a></li>
-             <li><a href="<%=application.getContextPath()%>/login" id="loginMy" class="header__nav__title">MYPAGE</a></li>
-            <li><a href="<%=application.getContextPath()%>/login"class="header__nav__title">CART</a></li>
-            <%
-            } else {
-            %>
-            <li><a href="<%=application.getContextPath()%>/servlet?controller=user&command=logOut&userId=<%=userId%>" id="logOut" class="header__nav__title"> <%=userId%> : LOGOUT</a></li>
-             
-             <li><a id="logOutmy" class="header__nav__title">MYPAGE</a>
-               <ul>
-                    <li><a href="<%=application.getContextPath()%>/myPage/myPage.jsp">회원정보 수정</a></li>
-                    <li><a href="${pageContext.request.contextPath}/servlet?controller=purchase&command=selectHistory">구매내역</a></li>
-                    <li><a href="<%=application.getContextPath()%>/myPage/qna.jsp">QnA</a></li>
-                </ul>
-             </li>
-             <li><a href="<%=application.getContextPath()%>/servlet?controller=cart&command=selectAll" class="header__nav__title">CART</a></li>
-             <%
-            }
-            %>
-             <li><a href="<%=application.getContextPath()%>/user/signUp.jsp" class="header__nav__title">SIGNUP</a></li>
-         </ul>
-      </div>
-
+       <div class="menubar">
+           <ul class="header__nav__right clearfix">
+               <%@ page import="org.springframework.security.core.Authentication" %>
+               <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+               <%@ page import="com.shop.config.auth.PrincipalDetails" %>
+               <% Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                   if (authentication.getPrincipal() instanceof PrincipalDetails) {
+                       PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+                       if (!authentication.isAuthenticated()) { %>
+               <li><a href="<%=application.getContextPath()%>/login" id="login" class="header__nav__title">LOGIN</a></li>
+               <li><a href="<%=application.getContextPath()%>/login" id="loginMy" class="header__nav__title">MYPAGE</a></li>
+               <li><a href="<%=application.getContextPath()%>/login" class="header__nav__title">CART</a></li>
+               <li><a href="<%=application.getContextPath()%>/signUp" class="header__nav__title">SIGNUP</a></li>
+               <% } else { %>
+               <li><a href="<%=application.getContextPath()%>/logout" id="logOut" class="header__nav__title">LOGOUT</a></li>
+               <li><a id="logOutmy" class="header__nav__title">MYPAGE</a>
+                   <ul>
+<%--                       <li><a href="<%=application.getContextPath()%>/user/modify/{id}">회원정보 수정</a></li>--%>
+                       <li><a href="${pageContext.request.contextPath}/user/${id}">회원정보</a></li>
+                       <li><a href="${pageContext.request.contextPath}/servlet?controller=purchase&command=selectHistory">구매내역</a></li>
+                       <li><a href="<%=application.getContextPath()%>/myPage/qna.jsp">QnA</a></li>
+                   </ul>
+               </li>
+               <li><a href="<%=application.getContextPath()%>/user/cart/${id}" class="header__nav__title">CART</a></li>
+               <% }
+               } else { %>
+               <li><a href="<%=application.getContextPath()%>/login" id="login" class="header__nav__title">LOGIN</a></li>
+               <li><a href="<%=application.getContextPath()%>/login" id="loginMy" class="header__nav__title">MYPAGE</a></li>
+               <li><a href="<%=application.getContextPath()%>/login" class="header__nav__title">CART</a></li>
+               <li><a href="<%=application.getContextPath()%>/signUp" class="header__nav__title">SIGNUP</a></li>
+               <% } %>
+           </ul>
+       </div>
    </header>
 
    <!-- 검색창 -->

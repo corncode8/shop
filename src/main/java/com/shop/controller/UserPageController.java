@@ -1,7 +1,7 @@
 package com.shop.controller;
 
 
-import com.shop.config.oauth.PrincipalDetails;
+import com.shop.config.auth.PrincipalDetails;
 import com.shop.model.Cart;
 import com.shop.model.CartItem;
 import com.shop.model.Product;
@@ -39,6 +39,7 @@ public class UserPageController {
     @GetMapping("/user/{id}")
     public String userPage(@PathVariable("id") Integer id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         // 로그인이 되어있는 유저의 id와 유저 페이지에 접속하는 id가 같아야 함
+        System.out.println("유저페이지?");
         if (principalDetails.getUser().getId() == id) {
 
             model.addAttribute("user", userPageService.findUser(id));

@@ -7,6 +7,7 @@ import com.shop.model.User;
 import com.shop.repository.CartItemRepository;
 import com.shop.repository.CartRepository;
 import com.shop.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,17 +17,15 @@ import java.util.List;
 @Service
 public class CartService {
 
+    @Autowired
     private CartRepository cartRepository;
+    @Autowired
     private ProductRepository productRepository;
+    @Autowired
     private CartItemRepository cartItemRepository;
 
     // 회원가입 하면 회원당 카트 하나 생성
-    public void createCart(User user){
 
-        Cart cart = Cart.createCart(user);
-
-        cartRepository.save(cart);
-    }
 
 
     /** 장바구니 담기 */
