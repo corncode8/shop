@@ -24,7 +24,6 @@
         </div>
         	<!-- Default dropright button -->
 			<div class="btn-group dropright">
-			<a href="../manager/managerLogin.jsp">관리자 로그인</a>
 			  <button type="button" class="btn btn-secondary dropdown-toggle btn-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			  </button>
 			  <div class="dropdown-menu">
@@ -36,10 +35,10 @@
 
 
         <div class="footer__right">
-            입점문의 : korea@anderssonbell.com<br>
-            문의메일 : cs@anderssonbell.com<br>
-            copyright@anderssonbell.com all right reseved
-    <a href="<%=application.getContextPath()%>/manager/managerLogin.jsp">관리자 로그인</a>
+            입점문의 : korea@gnu.ac.kr<br>
+            문의메일 : cs@gnu.ac.kr<br>
+            copyright@gnu.ac.kr<br>
+    <a href="<%=application.getContextPath()%>/sellerSignUp">Seller 회원가입</a>
         </div>
     </div>
 </body>

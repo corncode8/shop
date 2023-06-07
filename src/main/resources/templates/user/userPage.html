@@ -122,8 +122,8 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">회원이름</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="${user.getName()}">
-                                회원 이름
+                            <div class="col-sm-9 text-secondary" th:text="user.name">
+
                             </div>
                         </div>
                         <hr>
@@ -131,8 +131,8 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">닉네임</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="${user.getUsername()}">
-                                회원 닉네임
+                            <div class="col-sm-9 text-secondary" th:text="${user.username}">
+
                             </div>
                         </div>
                         <hr>
@@ -140,8 +140,8 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">이메일</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="${user.getEmail()}">
-                                회원 이메일
+                            <div class="col-sm-9 text-secondary" th:text="$user.email">
+
                             </div>
                         </div>
                         <hr>
@@ -149,8 +149,8 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">전화번호</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="${user.getPhone()}">
-                                (239) 816-9029
+                            <div class="col-sm-9 text-secondary" th:text="user.phone">
+
                             </div>
                         </div>
                         <hr>
@@ -158,8 +158,8 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">주소</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="${user.getAddress()}">
-                                회원 주소
+                            <div class="col-sm-9 text-secondary" th:text="{user.address()}">
+
                             </div>
                         </div>
                         <hr>

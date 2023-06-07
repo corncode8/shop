@@ -18,6 +18,10 @@ import net.bytebuddy.utility.nullability.AlwaysNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -60,6 +64,59 @@ public class IndexController {
         model.addAttribute("items", items);
 
         return "main";
+    }
+
+    // 상품 리스트 페이지 - 로그인 유저
+    @GetMapping("/item/list")
+    public String itemList(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+                           String searchKeyword, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        User user = userPageService.findUser(principalDetails.getUser().getId());
+
+        Page<Product> items = null;
+
+        if (searchKeyword == null) {  // 검색이 들어왔을 때
+            items = productService.allItemViewPage(pageable);
+        } else {  // 검색이 들어오지 않았을 때
+            items = productService.itemSearchList(searchKeyword, pageable);
+        }
+
+        int nowPage = items.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(nowPage - 4, 1);
+        int endPage = Math.min(nowPage + 5, items.getTotalPages());
+
+        model.addAttribute("items", items);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("user", user);
+
+        return "itemList";
+    }
+
+    // 상품 리스트 페이지 - 로그인 안 한 유저
+    @GetMapping("/nonlogin/item/list")
+    public String itemList(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+                           String searchKeyword) {
+
+        Page<Product> items = null;
+
+        if (searchKeyword == null) {  // 검색이 들어왔을 때
+            items = productService.allItemViewPage(pageable);
+        } else {  // 검색이 들어오지 않았을 때
+            items = productService.itemSearchList(searchKeyword, pageable);
+        }
+
+        int nowPage = items.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(nowPage - 4, 1);
+        int endPage = Math.min(nowPage + 5, items.getTotalPages());
+
+        model.addAttribute("items", items);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        return "itemList";
     }
 
     @GetMapping("/main")
@@ -133,6 +190,11 @@ public class IndexController {
         return "signUp";
     }
 
+    @GetMapping("/sellerSignUp")
+    public String sellerSignUp(User user) {
+        return "sellerSignUp";
+    }
+
     @PostMapping("/joinProc")
     public String joinProc(User user) {
         System.out.println("회원가입 진행 : " + user);
@@ -140,6 +202,18 @@ public class IndexController {
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);
         user.setRole("ROLE_USER");
+        userRepository.save(user);
+        createCart(user);
+        return "redirect:/";
+    }
+
+    @PostMapping("/sellerjoinProc")
+    public String sellerjoinProc(User user) {
+        System.out.println("회원가입 진행 : " + user);
+        String rawPassword = user.getPassword();
+        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+        user.setPassword(encPassword);
+        user.setRole("ROLE_SELLER");
         userRepository.save(user);
         createCart(user);
         return "redirect:/";

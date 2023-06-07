@@ -39,7 +39,7 @@ public class UserPageController {
     @GetMapping("/user/{id}")
     public String userPage(@PathVariable("id") Integer id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         // 로그인이 되어있는 유저의 id와 유저 페이지에 접속하는 id가 같아야 함
-        System.out.println("유저페이지?");
+
         if (principalDetails.getUser().getId() == id) {
 
             model.addAttribute("user", userPageService.findUser(id));
@@ -356,7 +356,7 @@ public class UserPageController {
             User user = userPageService.findUser(id);
             model.addAttribute("user",user);
 
-            return "/payment";       // /user/cash <- default
+            return "payment";       // /user/cash <- default
         }else{
             return "redirect:/main";
         }
