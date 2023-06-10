@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class UserPageController {
 
 
     // 유저 페이지 접속
-    @GetMapping("/user/{id}")
+    @GetMapping("/main/user/{id}")
     public String userPage(@PathVariable("id") Integer id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         // 로그인이 되어있는 유저의 id와 유저 페이지에 접속하는 id가 같아야 함
 
@@ -51,7 +52,7 @@ public class UserPageController {
     }
 
     // 회원 정보 수정
-    @GetMapping("/user/modify/{id}")
+    @GetMapping("/main/user/modify/{id}")
     public String userModify(@PathVariable("id") Integer id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         // 로그인이 되어있는 유저의 id와 수정페이지에 접속하는 id가 같아야 함
         if (principalDetails.getUser().getId() == id) {
@@ -66,7 +67,7 @@ public class UserPageController {
     }
 
     // 수정 실행
-    @PostMapping("/user/update/{id}")
+    @PostMapping("/main/user/update/{id}")
     public String userUpdate(@PathVariable("id") Integer id, User user) {
 
         userPageService.userModify(user);
@@ -75,7 +76,7 @@ public class UserPageController {
     }
 
     // 장바구니 페이지 접속
-    @GetMapping("/user/cart/{id}")
+    @GetMapping("/main/user/cart/{id}")
     public String userCartPage(@PathVariable("id") Integer id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         // 로그인이 되어있는 유저의 id와 장바구니에 접속하는 id가 같아야 함
         if (principalDetails.getUser().getId() == id) {
@@ -99,6 +100,7 @@ public class UserPageController {
             model.addAttribute("user", userPageService.findUser(id));
 
             return "/user/userCart";
+
         }
         // 로그인 id와 장바구니 접속 id가 같지 않는 경우
         else {
@@ -107,7 +109,7 @@ public class UserPageController {
     }
 
     // 장바구니에 물건 넣기
-    @PostMapping("/user/cart/{id}/{itemId}")
+    @PostMapping("/main/user/cart/{id}/{itemId}")
     public String addCartItem(@PathVariable("id") Integer id, @PathVariable("itemId") Integer itemId, int amount) {
 
         User user = userPageService.findUser(id);
@@ -120,7 +122,7 @@ public class UserPageController {
 
     // 장바구니에서 물건 삭제
     // 삭제하고 남은 상품의 총 개수
-    @GetMapping("/user/cart/{id}/{cartItemId}/delete")
+    @GetMapping("/main/user/cart/{id}/{cartItemId}/delete")
     public String deleteCartItem(@PathVariable("id") Integer id, @PathVariable("cartItemId") Integer itemId, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         // 로그인 유저 id와 장바구니 유저의 id가 같아야 함
         if (principalDetails.getUser().getId() == id) {
@@ -166,7 +168,7 @@ public class UserPageController {
     }
 
     // 주문 내역 조회 페이지
-    @GetMapping("/user/orderHist/{id}")
+    @GetMapping("/main/user/orderHist/{id}")
     public String orderList(@PathVariable("id") Integer id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         // 로그인이 되어있는 유저의 id와 주문 내역에 접속하는 id가 같아야 함
         if (principalDetails.getUser().getId() == id) {
@@ -195,7 +197,7 @@ public class UserPageController {
 
     // 장바구니 상품 전체 주문
     @Transactional
-    @PostMapping("/user/cart/checkout/{id}")
+    @PostMapping("/main/user/cart/checkout/{id}")
     public String cartCheckout(@PathVariable("id") Integer id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         // 로그인이 되어있는 유저의 id와 주문하는 id가 같아야 함
         if(principalDetails.getUser().getId() == id) {
@@ -267,7 +269,7 @@ public class UserPageController {
 
     // 상품 개별 주문 -> 상품 상세페이지에서 구매하기 버튼으로 주문
     @Transactional
-    @PostMapping("/user/{id}/checkout/{itemId}")
+    @PostMapping("/main/user/{id}/checkout/{itemId}")
     public String checkout(@PathVariable("id") Integer id, @PathVariable("itemId") Integer itemId, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model, int count) {
         // 로그인이 되어있는 유저의 id와 주문하는 id가 같아야 함
         if(principalDetails.getUser().getId() == id) {
@@ -312,7 +314,7 @@ public class UserPageController {
     }
 
     // 주문 취소 기능
-    @PostMapping("/user/{id}/checkout/cancel/{orderItemId}")
+    @PostMapping("/main/user/{id}/checkout/cancel/{orderItemId}")
     public String cancelOrder(@PathVariable("id") Integer id, @PathVariable("orderItemId") Integer orderItemId, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         // 로그인이 되어있는 유저의 id와 주문 취소하는 유저의 id가 같아야 함
         if (principalDetails.getUser().getId() == id) {
@@ -348,7 +350,7 @@ public class UserPageController {
 
     // 잔액 충전 페이지
     @Transactional
-    @GetMapping("/user/cash/{id}")
+    @GetMapping("/main/user/cash/{id}")
     public String charge(@PathVariable("id") Integer id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
         // 로그인 유저와 잔액 충전 페이지에 접속하는 id가 같아야 함.
         if(principalDetails.getUser().getId() == id){
@@ -363,7 +365,7 @@ public class UserPageController {
     }
 
     // 잔액충전 처리
-    @GetMapping("/user/charge/pro")
+    @GetMapping("/main/user/charge/pro")
     public String chargePro(int amount, @AuthenticationPrincipal PrincipalDetails principalDetails){
         User user = userPageService.findUser(principalDetails.getUser().getId());
         userPageService.chargePoint(user.getId(),amount);

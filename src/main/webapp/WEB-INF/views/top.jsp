@@ -122,18 +122,18 @@ clear:left;
 
    <header class="header">
        <div class="header__nav__mid layout--center">
-           <a href="<%=application.getContextPath()%>/"
-              class="header__logo">쇼핑몰 이름 뭐더라</a>
+           <a href="<%=application.getContextPath()%>/main"
+              class="header__logo">BizMates</a>
            <ul class="header__nav__mid_bottom clearfix">
                <li><a
-                       href="<%=application.getContextPath()%>/item/list"
+                       href="<%=application.getContextPath()%>/main/item/list"
                        class="header__nav__mid-title">JACKET</a></li>
                <li><a
-                       href="<%=application.getContextPath()%>/item/list"
-                       class="header__nav__mid-title">COAT</a></li>
+                       href="<%=application.getContextPath()%>/main/item/list"
+                       class="header__nav__mid-title">Feedback</a></li>
                <li><a
-                       href="<%=application.getContextPath()%>/item/list"
-                       class="header__nav__mid-title">PADDING</a></li>
+                       href="<%=application.getContextPath()%>/main/item/list"
+                       class="header__nav__mid-title">Gift</a></li>
            </ul>
        </div>
 
@@ -155,12 +155,12 @@ clear:left;
                <li><a id="logOutmy" class="header__nav__title">MYPAGE</a>
                    <ul>
 <%--                       <li><a href="<%=application.getContextPath()%>/user/modify/{id}">회원정보 수정</a></li>--%>
-                       <li><a href="${pageContext.request.contextPath}/user/${user.id}">회원정보</a></li>
+                       <li><a href="${pageContext.request.contextPath}/main/user/${user.id}">회원정보</a></li>
                        <li><a href="${pageContext.request.contextPath}/servlet?controller=purchase&command=selectHistory">구매내역</a></li>
                        <li><a href="<%=application.getContextPath()%>/myPage/qna.jsp">QnA</a></li>
                    </ul>
                </li>
-               <li><a href="<%=application.getContextPath()%>/user/cart/${user.id}" class="header__nav__title">CART</a></li>
+               <li><a href="<%=application.getContextPath()%>/main/user/cart/${user.id}" class="header__nav__title">CART</a></li>
                <% }
                } else { %>
                <li><a href="<%=application.getContextPath()%>/login" id="login" class="header__nav__title">LOGIN</a></li>

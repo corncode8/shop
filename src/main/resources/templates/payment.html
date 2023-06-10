@@ -137,7 +137,7 @@
                 msg += ' 카드 승인번호 : ' + rsp.apply_num;
                 $.ajax({
                     type: "GET",
-                    url: "/user/charge/point", //충전 금액값을 보낼 url 설정
+                    url: "/main/user/charge/pro", //충전 금액값을 보낼 url 설정
                     data: {
                         "amount" : money
                     },
@@ -147,7 +147,7 @@
                 msg += '에러내용 : ' + rsp.error_msg;
             }
             alert(msg);
-            document.location.href="/index"; //alert창 확인 후 이동할 url 설정 (지금은 인덱스지만 마이페이지로 이동시켜야 함)
+            document.location.href="/main"; //alert창 확인 후 이동할 url 설정 (지금은 인덱스지만 마이페이지로 이동시켜야 함)
         });
     });
 </script>

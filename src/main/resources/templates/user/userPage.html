@@ -31,28 +31,34 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" th:href="@{/main}">Mate</a>
+        <a class="navbar-brand" href="/main" sec:authorize="isAuthenticated()">BizMates</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/main}">Home</a></li>
+
 
             </ul>
             <form class="d-flex">
-                <a class="btn btn-outline-dark" th:href="@{/user/cash/{id}(id=${user.getId()})}" th:text="|현재잔액 : ${user.getCoin()} ₩|">
+                <a class="btn btn-outline-dark" href="@{/user/cash/{id}(id=${user.getId()})}" text="|현재잔액 : ${user.getCoin()} ₩|">
                     현재잔액 : 10000 ₩
                 </a>
-                <a class="btn btn-outline-dark" th:href="@{/user/cart/{id}(id=${user.getId()})}">
-                    <i class="bi-cart-fill me-1"></i>
+            </form>
+            <form action="/main/user/cart/getuser" method="get">
+                <button class="btn btn-outline-dark" type="submit" >
                     Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${user.getCart().getCount()}">0</span>
-                </a>
-                <a class="btn btn-outline-dark" th:href="@{/seller/{id}(id=${user.getId()})}" th:text="|${user.getName()}님 환영합니다.|">
+                </button>
+            </form>
+
+            <form action="/main/user/getuser" method="get">
+                <button class="btn btn-outline-dark" type="submit" >
                     마이페이지
-                </a>
-                <a class="btn btn-outline-dark" th:href="@{/logout}">
+                </button>
+            </form>
+
+            <form action="/logout" method="get">
+                <button class="btn btn-outline-dark" type="submit">
                     로그아웃
-                </a>
+                </button>
             </form>
 
         </div>
@@ -65,25 +71,25 @@
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" th:href="@{/user/{id}(id=${user.getId()})}">
+                <a class="nav-link active" aria-current="page" href="#" th:href="@{/user/{id}(id=${user.getId()})}">
                     <span data-feather="home"></span>
                     마이페이지
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" th:href="@{/user/cart/{id}(id=${user.getId()})}">
+                <a class="nav-link active" aria-current="page" href="#" th:href="@{/user/cart/{id}(id=${user.getId()})}">
                     <span data-feather="home"></span>
                     장바구니
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/user/orderHist/{id}(id=${user.getId()})}">
+                <a class="nav-link" href="#" th:href="@{/user/orderHist/{id}(id=${user.getId()})}">
                     <span data-feather="file"></span>
                     주문내역
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/user/cash/{id}(id=${user.getId()})}">
+                <a class="nav-link" href="#" th:href="@{/user/cash/{id}(id=${user.getId()})}">
                     <span data-feather="file"></span>
                     충전하기
                 </a>
@@ -122,8 +128,8 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">회원이름</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="user.name">
-
+                            <div class="col-sm-9 text-secondary" th:text="${user.getName()}">
+                                회원 이름
                             </div>
                         </div>
                         <hr>
@@ -131,8 +137,8 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">닉네임</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="${user.username}">
-
+                            <div class="col-sm-9 text-secondary" th:text="${user.getUsername()}">
+                                회원 닉네임
                             </div>
                         </div>
                         <hr>
@@ -140,8 +146,8 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">이메일</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="$user.email">
-
+                            <div class="col-sm-9 text-secondary" th:text="${user.getEmail()}">
+                                회원 이메일
                             </div>
                         </div>
                         <hr>
@@ -149,8 +155,8 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">전화번호</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="user.phone">
-
+                            <div class="col-sm-9 text-secondary" th:text="${user.getPhone()}">
+                                (239) 816-9029
                             </div>
                         </div>
                         <hr>
@@ -158,8 +164,8 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">주소</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="{user.address()}">
-
+                            <div class="col-sm-9 text-secondary" th:text="${user.getAddress()}">
+                                회원 주소
                             </div>
                         </div>
                         <hr>

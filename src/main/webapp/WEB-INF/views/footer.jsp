@@ -20,7 +20,7 @@
             [통신판매신고번호 : 2023-경남진주-00000] [사업자정보확인]
         </div>
         <div class="footer__mid">
-            NMM
+            BizMates
         </div>
         	<!-- Default dropright button -->
 			<div class="btn-group dropright">

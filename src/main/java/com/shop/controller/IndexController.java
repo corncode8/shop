@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,6 +41,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class IndexController {
 
+    final Logger logger = LoggerFactory.getLogger(IndexController.class);
     @Autowired
     private UserRepository userRepository;
 
@@ -57,6 +59,7 @@ public class IndexController {
     @Autowired
     private ProductService productService;
 
+
     @GetMapping({ "", "/" })
     public String index(Model model) {
         // 로그인을 안 한 경우
@@ -67,7 +70,7 @@ public class IndexController {
     }
 
     // 상품 리스트 페이지 - 로그인 유저
-    @GetMapping("/item/list")
+    @GetMapping("/main/item/list")
     public String itemList(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
                            String searchKeyword, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
@@ -135,6 +138,7 @@ public class IndexController {
             List<Product> items = productService.allItemView();
             model.addAttribute("items", items);
             model.addAttribute("user", userPageService.findUser(userId));
+            System.out.println(userId);
 
             return "main";
         }
@@ -187,6 +191,8 @@ public class IndexController {
 
     @GetMapping("/signUp")
     public String signUp(User user) {
+
+
         return "signUp";
     }
 
@@ -224,5 +230,43 @@ public class IndexController {
         Cart cart = Cart.createCart(user);
 
         cartRepository.save(cart);
+    }
+
+
+    @GetMapping("/main/user/getuser")
+    public String getuser(@AuthenticationPrincipal PrincipalDetails principal) {
+
+
+
+        int id = principal.getUser().getId();
+        String url = "/main/user/" + id;
+
+        logger.info("User ID: " + id);
+
+        return "redirect:/main/user/" + id;
+    }
+
+
+    @GetMapping("/main/user/cart/getuser")
+    public String getcartuser(@AuthenticationPrincipal PrincipalDetails principal) {
+
+        int id = principal.getUser().getId();
+        String url = "/main/user/" + id;
+
+        logger.info("User ID: " + id);
+
+        return "redirect:/main/user/cart/" + id;
+    }
+
+
+    @GetMapping("/main/user/cash/getuser")
+    public String getcashuser(@AuthenticationPrincipal PrincipalDetails principal) {
+
+        int id = principal.getUser().getId();
+        String url = "/main/user/" + id;
+
+        logger.info("User ID: " + id);
+
+        return "redirect:/main/user/cash/" + id;
     }
 }

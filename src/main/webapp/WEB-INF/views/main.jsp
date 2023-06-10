@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>NMM</title>
+<title>BizMates</title>
 <style>
 	img{width:200px; height:350px}
 	table td{text-align:center;}
